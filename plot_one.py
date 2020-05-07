@@ -69,21 +69,19 @@ def compare_traj(stras, base, trange=-1):
 	plot_target()
 	
 	for stra, c in zip(stras, colors):
-		# print(stra)
 		try: n, t, xis, xd, _, capids, value = read_data('results/'+rdir+'/'+'_'.join([stra, base]))
 		except: n, t, xis, xd, _, capids, value = read_data('results/'+rdir+'/'+'_'.join([base, stra]))
-		if trange == -1:
-			trange = len(t)-1
-		print(capids)
+		tmax = len(t)-1 if trange == -1 else trange
 
 		# plot trajectories
-		plt.plot(xd[:trange,0], xd[:trange,1], color=c, linewidth=1.5, linestyle=(0,()), label=stra+' v='+value)
+		plt.plot(xd[:tmax,0], xd[:tmax,1], color=c, linewidth=1.5, linestyle=(0,()), label=stra+' v='+value)
 		for i in range(n):
-			plt.plot(xis[i][:trange,0], xis[i][:trange,1], color=c, linewidth=1.5, linestyle=(0, (8,3)))
+			plt.plot(xis[i][:tmax,0], xis[i][:tmax,1], color=c, linewidth=1.5, linestyle=(0, (8,3)))
 
 		# plot markers
-		for i, k in enumerate(capids+[trange]):
-			if k <= trange:
+		print(len(t), len(xis[0]), capids+[tmax])
+		for i, k in enumerate(capids+[tmax]):
+			if k <= tmax:
 				plt.plot(xd[k,0], xd[k,1], color=c, marker='o')
 				if i != 0:
 					circle = Circle(xd[k], r, color=c, alpha=0.2)
@@ -162,25 +160,28 @@ def compare_value12(dstr, istr):
 	plt.show()
 
 
-# n = 1
+################### n = 1: mindr is the best
 # compare_traj(['mindr', 'ppfar', 'ppclose'], 'drx')
 # compare_traj(['drvg', 'drx'], 'ppclose')
 # compare_value(['drx', 'drvg', 'dt'], 'mindr')
 
-# n >= 2
-compare_traj(['vgreedyx', 'vgreedyv', 'vgreedy2', 'mindr'], 'drx')
-compare_traj(['mindr', 'ppf', 'ppc'], 'drx')
-compare_traj(['drx', 'drvp', 'drvg', 'dt'], 'mindr')
-compare_traj(['drx', 'drvp', 'drvg', 'dt'], 'vgreedy2')
+################### n = 2: value and value2 are identical
+# compare_traj(['vgreedyx', 'vgreedyv'], 'dt')				# vgreedyv and vgreedyx are only slightly different with dt, 
+# 											 				# almost the same for other intruding strategies
+# compare_traj(['vgreedyv', 'mindr'], 'drx') 				# mindr and vgreedyv are alsomst the same here
 
-compare_value(['vgreedy', 'vgreedy2', 'mindr'], 'drx')
-compare_value(['mindr', 'ppf', 'ppc'], 'drx')
-compare_value(['drx', 'drvp', 'drvg'], 'mindr')
-compare_value(['drx', 'drvp', 'drvg'], 'vgreedy2')
+# compare_traj(['drx', 'drvp', 'drvg', 'dt'], 'vgreedyv') 	# compare drvg with others
+# compare_value(['drx', 'drvp', 'drvg', 'dt'], 'vgreedyv') 	# compare drvg with others
 
-compare_order('vgreedy2', 'drvp')
+################### n = 3: value and value2 are different
+# compare_traj(['vgreedy2v', 'vgreedy2x'], 'drvp')
+# compare_traj(['mindr', 'vgreedy2x', 'vgreedyx'], 'drvg')
+compare_traj(['drvp', 'drvg', 'drx', 'dt'], 'vgreedy2v')
 
-compare_value12('vgreedy', 'drvp')
+# compare_value(['vgreedy2v', 'vgreedy2x', 'vgreedyv', 'vgreedyx', 'mindr'], 'drvp')
+# compare_value(['mindr', 'vgreedy2x'], 'drv')
+# compare_value(['drvp', 'drvg', 'drx', 'dt'], 'vgreedy2v')
 
-
+# compare_order('vgreedyv', 'drvp')
+# compare_value12('vgreedyv', 'drvp')
 

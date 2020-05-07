@@ -186,11 +186,10 @@ class DstrategyMinDR(BaseStrategy):
 		for i, (active, xw) in enumerate(zip(actives, xws)):
 			if active:
 				d2 = self.game.target.level(xw)
-				# print(i, d2)
 				if d2 < lmin:
 					lmin = d2
 					imin = i
-		print('chasing down intruder', imin)
+		# print('chasing down intruder', imin)
 		dx = xws[imin] - xd
 		return atan2(dx[1], dx[0]), imin
 

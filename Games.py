@@ -276,7 +276,7 @@ class SDMIGame(object):
 		xws = []
 		for i in order:
 			if actives[i]:
-				dr = DominantRegion(self.r, self.vd/self.vi, xis[i], [xd], offset=self.vi*t)
+				dr = DominantRegion(self.r, self.vd/self.vi, xis[i], [xd], offset=self.vd*t)
 				xw = self.target.deepest_point_in_dr(dr)
 				dt = dist(xw, xis[i])/self.vi
 				t = t + dt
@@ -285,9 +285,6 @@ class SDMIGame(object):
 			else:
 				xws.append(np.array([x for x in xis[i]]))
 		return min([self.target.level(xw) for xw in xws])	
-
-	def value(self, ss):
-		return max([self.value_order(ss, order) for order in self.orders])
 
 	def value2_order(self, ss, order):
 		def recurse(xis, actives, xd):
@@ -304,7 +301,7 @@ class SDMIGame(object):
 					break
 			for i in order[k+1:]:
 				if actives[i]:
-					dr = DominantRegion(self.r, self.vd/self.vi, xis[i], [xd], offset=self.vi*dt)
+					dr = DominantRegion(self.r, self.vd/self.vi, xis[i], [xd], offset=self.vd*dt)
 					xw = self.target.deepest_point_in_dr(dr)
 					e = (xw - xis[i])/dist(xw, xis[i])
 					xi = xis[i] + e*self.vi*dt
@@ -316,6 +313,9 @@ class SDMIGame(object):
 		xis, _, _ = recurse(xis, actives, xd)
 
 		return min([self.target.level(xw) for xw in xis])	
+
+	def value(self, ss):
+		return max([self.value_order(ss, order) for order in self.orders])
 
 	def value2(self, ss):
 		return max([self.value2_order(ss, order) for order in self.orders])
