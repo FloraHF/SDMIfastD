@@ -320,6 +320,11 @@ class SDMIGame(object):
 	def value2(self, ss):
 		return max([self.value2_order(ss, order) for order in self.orders])
 
+	def valuei(self, ss):
+		xis, _, _, _, _ = self.unwrap_state(ss)
+		# print()
+		return [self.target.level(xi) for xi in xis]
+
 	def reset(self, xd=None, xis=None, actives=None):
 		outer_lim = 1.5
 		def random_istate(self, xis, actives):

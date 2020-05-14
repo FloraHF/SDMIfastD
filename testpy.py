@@ -1,4 +1,6 @@
 import numpy as np
 
-a = True if 1>0 else False
-print(a)
+a = [1, 2, 3]
+for i in a:
+	if isinstance(i, int):
+		print(i)

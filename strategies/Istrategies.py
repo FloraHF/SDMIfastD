@@ -73,10 +73,16 @@ class IstrategyDRV(BaseStrategy):
 				err[i] = e[0]*ed[0] + e[1]*ed[1]
 		emax = -1
 		for i, e in enumerate(err):
+			# print(i, e)
 			if e is not None and e >= emax:
 				emax = e
 				imax = i
-		return imax, xws[imax]
+		return imax, xws[imax], err
+
+	def get_icurr(self, ss):
+		xis, xd, _, vd, actives = self.unwrap_state(ss)
+		imax, _, err = self.estimate_icurr(xis, actives, xd, vd)
+		return err
 
 	def get_action(self):
 		def greedy(ss):
@@ -91,7 +97,7 @@ class IstrategyDRV(BaseStrategy):
 
 		def long_term(ss):
 			xis, xd, _, vd, actives = self.unwrap_state(ss)
-			imax, xw_imax = self.estimate_icurr(xis, actives, xd, vd)
+			imax, xw_imax, _ = self.estimate_icurr(xis, actives, xd, vd)
 
 			d = dist(xw_imax, xd)
 			offvec = (xw_imax - xd)*(d - self.game.r)/d 
