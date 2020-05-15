@@ -29,16 +29,17 @@ def simulate(xis, dt=0.05, lbi=0, ubi=10, n=20):
 								xis=xis, xd=xd,
 								res_dir='res'+str(ni)+'0_fixi_%d_%d_%d'%(n, i, j))
 				# vgreedy = DstrategyVGreedy(game)
-				vgreedy2 = DstrategyVGreedy2(game, mode='x')
+				vgreedy2x = DstrategyVGreedy2(game, mode='x')
+				vgreedy2v = DstrategyVGreedy2(game, mode='v')
 				# mindr = DstrategyMinDR(game)
 				# ppc = DstrategyPPC(game)
 				# ppf = DstrategyPPF(game)
 
 				# for dstr in [vgreedy, vgreedy2, mindr, ppc, ppf]:
 				# for dstr in [vgreedy, vgreedy2, mindr]:
-				for dstr in [vgreedy2]:
+				for dstr in [vgreedy2x, vgreedy2v]:
 					game.reset(xd=xd, xis=xis, actives=[1, 1, 1])
-					game.advance(2.5, dstr, IstrategyDRV(game, mode='pred'), draw=False, record=True)
+					game.advance(2.5, dstr, IstrategyDT(game), draw=False, record=True)
 
 # simulate(xis=[np.array([0., 5.])],
 # 		dt=.005, n=20,
