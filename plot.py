@@ -275,8 +275,8 @@ def compare_vdcontour(stras, base, rdir='res30_fixi_10'):
 	for (i, v) in enumerate(vs):
 		fig = plt.figure(figsize=(8,8))
 		# cp = plt.contourf(x, y, v, levels=[-1.5, -1, -.5, 0, .25, .5, .75, 1.5, 1.75, 2, 2.25, 2.5])
-		cp = plt.contourf(x, y, v-vs[0], levels=[-.04, -.02, 0., .02, .04, .06, .08])
-		# cp = plt.contourf(x, y, v-vs[0])
+		# cp = plt.contourf(x, y, v-vs[0], levels=[-.04, -.02, 0., .02, .04, .06, .08])
+		cp = plt.contourf(x, y, v-vs[0], levels=[-.02, -.01, -.005,  0., .005, .01, .02, .03])
 		plot_target()
 		bar = plt.colorbar(cp)
 		bar.ax.tick_params(labelsize=fs) 
@@ -327,7 +327,7 @@ def compare_vicontour(stras, base, rdir='res30_fixi_10'):
 		plt.show()
 
 def plot_target():
-	tht = np.linspace(.55*np.pi, 1.45*np.pi, 50)		
+	tht = np.linspace(.35*np.pi, 1.75*np.pi, 50)		
 	line, = plt.plot(game.target.x0 + R*np.cos(tht), 
 			game.target.y0 + R*np.sin(tht), 
 			'k', linewidth=3, label='Target')
@@ -353,6 +353,6 @@ def plot_target():
 # 				rdir='res30_fixi_30')
 # 
 ######## Fig.8 ######## 10 1, 0 8, 22, 16
-# compare_vdcontour(['vgreedy2x', 'vgreedy2v'], 'drvp',
+# compare_vdcontour(['vgreedy2x', 'vgreedy2v'], 'dt',
 # 				rdir='res30_fixi_30')
-compare_traj(['vgreedy2x', 'vgreedy2v'], 'drvp')
+# compare_traj(['vgreedy2x', 'vgreedy2v'], 'dt')
